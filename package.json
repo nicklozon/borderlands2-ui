@@ -1,0 +1,11 @@
+{
+  "name": "borderlands2-ui",
+  "description": "UI for the Borderlands 2 library.",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "Nick Lozon",
+  "license": "MIT",
+  "dependencies": {
+    "borderlands2": "^0.1.0"
+  }
+}
