@@ -1,9 +1,13 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as React from "react"
+import * as ReactDOM from "react-dom"
 import 'typeface-roboto'
-import WeaponForm from "./components/weapon";
+import WeaponForm from "./components/weapon_form"
+import LibVersion from "./components/lib_version"
 
 ReactDOM.render(
-  <WeaponForm />,
+  <div>
+    <WeaponForm />
+    <LibVersion />
+  </div>,
   document.getElementById("root")
 );
