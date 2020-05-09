@@ -10,7 +10,8 @@
     "borderlands2": "^0.2.0",
     "classnames": "^2.2.6",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@types/react": "^16.9.34",
@@ -18,6 +19,7 @@
     "@webpack-cli/serve": "^0.2.0",
     "css-loader": "^3.5.3",
     "html-webpack-plugin": "^4.3.0",
+    "redux-devtools-extension": "^2.13.8",
     "source-map-loader": "^0.2.4",
     "style-loader": "^1.2.1",
     "ts-loader": "^7.0.2",

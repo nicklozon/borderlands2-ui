@@ -4,6 +4,8 @@ import { Weapon, Manufacturer, Type, ElementalEffect } from 'borderlands2'
 import { ManufacturerSelectorInput, WeaponTypeSelectorInput, ElementalEffectSelectorInput } from './enum_selector_inputs'
 import { Button, FormGroup, InputGroup, Overlay, Classes, HTMLSelect, Switch } from '@blueprintjs/core'
 import { RedTextEnum } from 'borderlands2/dist/domain/player/object/red_text'
+import { WeaponStore } from '../store/weapon/store'
+import { addWeapon } from '../store/weapon/actions'
 
 interface WeaponFormPropsInterface {
 
@@ -34,6 +36,10 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
 
   hasDOT(elementalEffect: ElementalEffect) : boolean {
     return [ElementalEffect.Incendiary, ElementalEffect.Corrosive, ElementalEffect.Shock].includes(elementalEffect)
+  }
+
+  addWeapon = () => {
+    WeaponStore.dispatch(addWeapon(this.state))
   }
 
   render() {
@@ -154,7 +160,7 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
               </HTMLSelect>
             </FormGroup>
           </div>
-          <Button intent="primary">Save {manufacturer} {type}</Button>
+          <Button onClick={this.addWeapon} intent="primary">Save {manufacturer} {type}</Button>
         </div>
       </Overlay>
     )
