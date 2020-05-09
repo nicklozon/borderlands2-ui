@@ -79,13 +79,19 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
               label="Damage"
               labelFor="damage"
             >
-              <InputGroup id="damage" placeholder="Damage" />
+              <InputGroup id="damage" />
             </FormGroup>
             <FormGroup
               label="Fire Rate"
               labelFor="firerate"
             >
               <InputGroup id="firerate" />
+            </FormGroup>
+            <FormGroup
+              label="Reload Speed"
+              labelFor="reloadSpeed"
+            >
+              <InputGroup id="reloadSpeed" />
             </FormGroup>
             <FormGroup
               label="Magazine Size"
