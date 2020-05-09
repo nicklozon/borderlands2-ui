@@ -1,6 +1,6 @@
 import * as React from 'react'
 const classNames = require('classnames')
-import { Weapon, Manufacturer, Type } from 'borderlands2'
+import { Weapon, Manufacturer, Type, ElementalEffect } from 'borderlands2'
 import { ManufacturerSelectorInput, WeaponTypeSelectorInput, ElementalEffectSelectorInput } from './enum_selector_inputs'
 import { Button, FormGroup, InputGroup, ControlGroup, Overlay, Classes, HTMLSelect, Switch } from '@blueprintjs/core'
 import { RedTextEnum } from 'borderlands2/dist/domain/player/object/red_text'
@@ -32,6 +32,10 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
     }
   }
 
+  hasDOT(elementalEffect: ElementalEffect) : boolean {
+    return [ElementalEffect.Incendiary, ElementalEffect.Corrosive, ElementalEffect.Shock].includes(elementalEffect)
+  }
+
   render() {
     const { manufacturer, type, elementalEffect } = this.state
 
@@ -44,6 +48,21 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
     const containerStyle = {
       display: 'flex'
     }
+
+    const elementalMarkup = this.hasDOT(elementalEffect) ? <div style={containerStyle}>
+      <FormGroup
+        label="Elemental DPS"
+        labelFor="elementalDps"
+      >
+        <InputGroup id="elementalDps" />
+      </FormGroup>
+      <FormGroup
+        label="Elemental Chance"
+        labelFor="elementalChance"
+      >
+        <InputGroup id="elementalChance" />
+      </FormGroup>
+    </div> : null
 
     return (
       <Overlay isOpen>
@@ -100,41 +119,29 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
             <WeaponTypeSelectorInput selectedValue={type} onChange={this.onChange('type')} />
           </FormGroup>
           <FormGroup
-            label="Red Text"
-            labelFor="red_text"
-          >
-            <Switch label="Deals bonus elemental damage" />
-            <Switch label="E-Tech" />
-          </FormGroup>
-          <FormGroup
             label="Elemental Damage Type"
             labelFor="elemental_damage_type"
           >
             <ElementalEffectSelectorInput selectedValue={elementalEffect} onChange={this.onChange('elementalEffect')} />
           </FormGroup>
+          {elementalMarkup}
           <div style={containerStyle}>
             <FormGroup
-              label="Elemental DPS"
-              labelFor="elementalDps"
+              label="Bonuses"
             >
-              <InputGroup id="elementalDps" />
+              <Switch label="Deals bonus elemental damage" />
+              <Switch label="E-Tech" />
             </FormGroup>
             <FormGroup
-              label="Elemental Chance"
-              labelFor="elementalChance"
+              label="Red Text"
+              labelFor="red_text"
             >
-              <InputGroup id="elementalChance" />
+              <HTMLSelect>
+                <option>None</option>
+                {Object.values(RedTextEnum).map(text => <option>{text}</option>)}
+              </HTMLSelect>
             </FormGroup>
           </div>
-          <FormGroup
-            label="Red Text"
-            labelFor="red_text"
-          >
-            <HTMLSelect>
-              <option>None</option>
-              {Object.values(RedTextEnum).map(text => <option>{text}</option>)}
-            </HTMLSelect>
-          </FormGroup>
           <Button intent="primary">Save {manufacturer} {type}</Button>
         </div>
       </Overlay>
