@@ -5,9 +5,9 @@ import WeaponForm from "./components/weapon_form"
 import LibVersion from "./components/lib_version"
 
 ReactDOM.render(
-  <div>
+  <React.Fragment>
     <WeaponForm />
     <LibVersion />
-  </div>,
+  </React.Fragment>,
   document.getElementById("root")
 );
