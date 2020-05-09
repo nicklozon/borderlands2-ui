@@ -2,7 +2,7 @@ import * as React from 'react'
 const classNames = require('classnames')
 import { Weapon, Manufacturer, Type, ElementalEffect } from 'borderlands2'
 import { ManufacturerSelectorInput, WeaponTypeSelectorInput, ElementalEffectSelectorInput } from './enum_selector_inputs'
-import { Button, FormGroup, InputGroup, ControlGroup, Overlay, Classes, HTMLSelect, Switch } from '@blueprintjs/core'
+import { Button, FormGroup, InputGroup, Overlay, Classes, HTMLSelect, Switch } from '@blueprintjs/core'
 import { RedTextEnum } from 'borderlands2/dist/domain/player/object/red_text'
 
 interface WeaponFormPropsInterface {
@@ -82,12 +82,6 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
               <InputGroup id="damage" placeholder="Damage" />
             </FormGroup>
             <FormGroup
-              label="Pellets"
-              labelFor="pellets"
-            >
-              <InputGroup id="pellets" placeholder="1" />
-            </FormGroup>
-            <FormGroup
               label="Fire Rate"
               labelFor="firerate"
             >
@@ -98,6 +92,18 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
               labelFor="magazine"
             >
               <InputGroup id="magazine" />
+            </FormGroup>
+            <FormGroup
+              label="Pellets"
+              labelFor="pellets"
+            >
+              <InputGroup id="pellets" placeholder="1" />
+            </FormGroup>
+            <FormGroup
+              label="Unlisted Pellets"
+              labelFor="unlistedPellets"
+            >
+              <InputGroup id="unlistedPellets" placeholder="0" />
             </FormGroup>
             <FormGroup
               label="Ammo Per Shot"
