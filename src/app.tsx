@@ -33,6 +33,10 @@ class AppComponent extends React.Component<PropsFromRedux> {
     this.props.closeWeaponModal()
   }
 
+  handleCancelWeapon = () => {
+    this.props.closeWeaponModal()
+  }
+
   renderWeapons = () => {
     const { weapons } = this.props
 
@@ -43,7 +47,7 @@ class AppComponent extends React.Component<PropsFromRedux> {
     return (
       <>
         <Button onClick={this.props.openWeaponModal}>Add Weapon</Button>
-        <WeaponForm isOpen={this.props.weaponModal} handleSave={this.handleSaveWeapon} />
+        <WeaponForm isOpen={this.props.weaponModal} onSave={this.handleSaveWeapon} onCancel={this.handleCancelWeapon} />
         {this.renderWeapons()}
         <LibVersion />
       </>

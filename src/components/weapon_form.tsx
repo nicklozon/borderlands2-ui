@@ -7,7 +7,8 @@ import { RedTextEnum } from 'borderlands2/dist/domain/player/object/red_text'
 
 interface WeaponFormProps {
   isOpen?: boolean,
-  handleSave: (weapon: Weapon) => void
+  onSave: (weapon: Weapon) => void,
+  onCancel: () => void
 }
 
 export default class WeaponForm extends React.Component<WeaponFormProps, Weapon> {
@@ -54,8 +55,12 @@ export default class WeaponForm extends React.Component<WeaponFormProps, Weapon>
     return [ElementalEffect.Incendiary, ElementalEffect.Corrosive, ElementalEffect.Shock].includes(elementalEffect)
   }
 
-  onSave = () => {
-    this.props.handleSave(this.state)
+  handleSave = () => {
+    this.props.onSave(this.state)
+  }
+
+  handleCancel = () => {
+    this.props.onCancel()
   }
 
   getStringValue = (value: number|boolean) => {
@@ -182,7 +187,8 @@ export default class WeaponForm extends React.Component<WeaponFormProps, Weapon>
               </HTMLSelect>
             </FormGroup>
           </div>
-          <Button onClick={this.onSave} intent="primary">Save {state.manufacturer} {state.type}</Button>
+          <Button onClick={this.handleSave} intent="primary">Save {state.manufacturer} {state.type}</Button>
+          <Button onClick={this.handleCancel} intent="danger">Cancel</Button>
         </div>
       </Overlay>
     )
