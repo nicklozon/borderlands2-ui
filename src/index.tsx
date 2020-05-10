@@ -1,13 +1,15 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
-import WeaponForm from "./components/weapon_form"
-import LibVersion from "./components/lib_version"
+import { App } from "./app"
+import { Provider } from "react-redux";
+import { RootStore } from "./store";
 require("@blueprintjs/core/lib/css/blueprint.css")
 
 ReactDOM.render(
   <React.Fragment>
-    <WeaponForm />
-    <LibVersion />
+    <Provider store={RootStore}>
+      <App />
+    </Provider>
   </React.Fragment>,
   document.getElementById("root")
 );

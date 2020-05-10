@@ -8,7 +8,6 @@ export function weaponReducer(state = initialState, action: WeaponActionTypes): 
   switch(action.type) {
     case ADD_WEAPON:
       let weapons = [...state.weapons, action.weapon]
-      console.log(weapons)
       return {
         weapons
       }

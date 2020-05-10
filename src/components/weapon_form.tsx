@@ -2,17 +2,16 @@ import * as React from 'react'
 const classNames = require('classnames')
 import { Weapon, Manufacturer, Type, ElementalEffect } from 'borderlands2'
 import { ManufacturerSelectorInput, WeaponTypeSelectorInput, ElementalEffectSelectorInput } from './enum_selector_inputs'
-import { Button, FormGroup, InputGroup, Overlay, Classes, HTMLSelect, Switch, IControlledProps } from '@blueprintjs/core'
+import { Button, FormGroup, InputGroup, Classes, HTMLSelect, Switch, Overlay } from '@blueprintjs/core'
 import { RedTextEnum } from 'borderlands2/dist/domain/player/object/red_text'
-import { WeaponStore } from '../store/weapon/store'
-import { addWeapon } from '../store/weapon/actions'
 
-interface WeaponFormPropsInterface {
-
+interface WeaponFormProps {
+  isOpen?: boolean,
+  handleSave: (weapon: Weapon) => void
 }
 
-export default class WeaponForm extends React.Component<WeaponFormPropsInterface, Weapon> {
-  constructor(props: WeaponFormPropsInterface) {
+export default class WeaponForm extends React.Component<WeaponFormProps, Weapon> {
+  constructor(props: WeaponFormProps) {
     super(props)
 
     this.state = {
@@ -36,7 +35,6 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
 
   onChangeEvent(field: keyof Weapon) {
     return (event: any) => {
-      console.log(event.target.value)
       this.setState({
         [field]: event.target.value
       } as Pick<Weapon, keyof Weapon>)
@@ -56,8 +54,8 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
     return [ElementalEffect.Incendiary, ElementalEffect.Corrosive, ElementalEffect.Shock].includes(elementalEffect)
   }
 
-  addWeapon = () => {
-    WeaponStore.dispatch(addWeapon(this.state))
+  onSave = () => {
+    this.props.handleSave(this.state)
   }
 
   getStringValue = (value: number|boolean) => {
@@ -66,6 +64,7 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
 
   render() {
     const state = this.state
+    const { isOpen } = this.props
 
     const classes = classNames(
         Classes.CARD,
@@ -88,13 +87,13 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
         label="Elemental Chance"
         labelFor="elementalChance"
       >
-        <InputGroup id="elementalChance" value={this.getStringValue(state.elementalChance)} onChange={this.onChangeEvent('elementalChance')} />
+        <InputGroup id="keyof WeaponelementalChance" value={this.getStringValue(state.elementalChance)} onChange={this.onChangeEvent('elementalChance')} />
       </FormGroup>
     </div> : null
 
     // TODO: Needs custom stats
     return (
-      <Overlay isOpen>
+      <Overlay isOpen={isOpen}>
         <div className={classes}>
           <FormGroup
             label="Name"
@@ -183,7 +182,7 @@ export default class WeaponForm extends React.Component<WeaponFormPropsInterface
               </HTMLSelect>
             </FormGroup>
           </div>
-          <Button onClick={this.addWeapon} intent="primary">Save {state.manufacturer} {state.type}</Button>
+          <Button onClick={this.onSave} intent="primary">Save {state.manufacturer} {state.type}</Button>
         </div>
       </Overlay>
     )
