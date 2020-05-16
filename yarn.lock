@@ -1830,10 +1830,10 @@ boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-borderlands2@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/borderlands2/-/borderlands2-0.2.3.tgz#6125721945f16aba24941e6bc0714eba9bc26f85"
-  integrity sha512-QozJxqF7wbsmrPbTwwsVfSo48vh8XOM1uSe4j/3qynUmI79vMrOd1tej5FeoVQL0mvnokhyuqHW9SkH5mRRxoA==
+borderlands2@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/borderlands2/-/borderlands2-0.2.5.tgz#b45ed4370caf838cb24750a7b1b0d4346178d9ea"
+  integrity sha512-8R/ckh8KQjeGB6dwx1yFI/GaozfmFTz7sM9yOOaZYmb7LeIv6j5tNanYKlBF+m3BF7WVpm68Bj/P74SDq5bk3w==
   dependencies:
     console-table-printer "^1.1.64"
 
