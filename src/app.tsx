@@ -9,6 +9,7 @@ import LibVersion from './components/lib_version'
 import { Weapon, GameModeEnum, Player, Class, Battlefront, StatType, Type, Context, WeaponTypeGear } from 'borderlands2'
 import { ClassMod } from 'borderlands2/dist/domain/gear/object/class_mod'
 import { createContext } from './store/context/actions'
+import { WeaponList } from './components/weapon_list'
 
 const mapState = (state: RootState) => ({
   weaponModal: state.appReducer.weaponModal,
@@ -38,12 +39,6 @@ class AppComponent extends React.Component<PropsFromRedux> {
 
   handleCancelWeapon = () => {
     this.props.closeWeaponModal()
-  }
-
-  renderWeapons = () => {
-    const { weapons } = this.props
-
-    return weapons.map(weapon => (<div>{weapon.name}</div>))
   }
 
   addContext = () => {
@@ -84,13 +79,11 @@ class AppComponent extends React.Component<PropsFromRedux> {
   }
 
   render() {
+    //    <Button onClick={this.addContext}>Add Context</Button>
     return (
       <>
-        <Button onClick={this.props.openWeaponModal}>Add Weapon</Button>
-        <Button onClick={this.addContext}>Add Context</Button>
         <WeaponList />
         <WeaponForm isOpen={this.props.weaponModal} onSave={this.handleSaveWeapon} onCancel={this.handleCancelWeapon} />
-        {this.renderWeapons()}
         <LibVersion />
       </>
     )
