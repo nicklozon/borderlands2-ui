@@ -6,7 +6,9 @@ import { closeWeaponModal, openWeaponModal } from './store/app/actions'
 import { addWeapon } from './store/weapon/actions'
 import WeaponForm from "./components/weapon_form"
 import LibVersion from './components/lib_version'
-import { Weapon } from 'borderlands2'
+import { Weapon, GameModeEnum, Player, Class, Battlefront, StatType, Type, Context, WeaponTypeGear } from 'borderlands2'
+import { ClassMod } from 'borderlands2/dist/domain/gear/object/class_mod'
+import { createContext } from './store/context/actions'
 
 const mapState = (state: RootState) => ({
   weaponModal: state.appReducer.weaponModal,
@@ -16,7 +18,8 @@ const mapState = (state: RootState) => ({
 const mapDispatch = {
   addWeapon,
   openWeaponModal,
-  closeWeaponModal
+  closeWeaponModal,
+  createContext
 }
 
 const connector = connect(mapState, mapDispatch)
@@ -43,10 +46,49 @@ class AppComponent extends React.Component<PropsFromRedux> {
     return weapons.map(weapon => (<div>{weapon.name}</div>))
   }
 
+  addContext = () => {
+    let gameMode = GameModeEnum.TrueVaultHunterMode
+
+    let classMod = new ClassMod([
+    ],[
+      new Battlefront(4)
+    ])
+
+    let relic = new WeaponTypeGear([{
+      type: StatType.GunDamage,
+      value: 0.181
+    },{
+      type: StatType.FireRate,
+      value: 0.49
+    }], Type.Pistol)
+
+    let player = new Player(
+      Class.Commando,
+      [],
+      [],
+      classMod,
+      relic,
+      //shield
+    )
+
+    let context: Context = {
+      player,
+      gameMode,
+      effects: [],
+      health: 1
+    }
+
+    console.log(context)
+
+    this.props.createContext(context)
+  }
+
   render() {
     return (
       <>
         <Button onClick={this.props.openWeaponModal}>Add Weapon</Button>
+        <Button onClick={this.addContext}>Add Context</Button>
+        <WeaponList />
         <WeaponForm isOpen={this.props.weaponModal} onSave={this.handleSaveWeapon} onCancel={this.handleCancelWeapon} />
         {this.renderWeapons()}
         <LibVersion />
