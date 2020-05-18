@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from './store'
 import LibVersion from './components/lib_version'
 import { WeaponList } from './components/weapon_list'
+import { DamageTable } from './components/damage_table'
 
 const mapState = (state: RootState) => ({
 })
@@ -23,6 +24,7 @@ class AppComponent extends React.Component<PropsFromRedux> {
     return (
       <>
         <WeaponList />
+        <DamageTable />
         <LibVersion />
       </>
     )

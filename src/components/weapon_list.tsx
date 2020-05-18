@@ -4,7 +4,7 @@ import { Card, Button, H4, Elevation, H5, Colors } from '@blueprintjs/core'
 import { RootState } from '../store'
 import { closeWeaponModal, openWeaponModal } from '../store/app/actions'
 import { addWeapon, removeWeapon, updateWeapon } from '../store/weapon/actions'
-import { toggleWeapon } from '../store/context/actions'
+import { deselectWeapon, toggleWeapon } from '../store/context/actions'
 import { Weapon } from 'borderlands2'
 import { WeaponForm } from './weapon_form'
 
@@ -20,7 +20,8 @@ const mapDispatch = {
   openWeaponModal,
   updateWeapon,
   removeWeapon,
-  toggleWeapon
+  deselectWeapon,
+  toggleWeapon,
 }
 
 const connector = connect(mapState, mapDispatch)
@@ -46,7 +47,13 @@ class WeaponListComponent extends React.Component<PropsFromRedux> {
   }
 
   removeWeapon(weaponId: string) {
-    return () => this.props.removeWeapon(weaponId)
+    return (event: React.MouseEvent<any>) => {
+      event.stopPropagation()
+
+      // Event based system would be better...
+      this.props.deselectWeapon(weaponId)
+      this.props.removeWeapon(weaponId)
+    }
   }
 
   renderWeapons() {
@@ -73,7 +80,7 @@ class WeaponListComponent extends React.Component<PropsFromRedux> {
   }
 
   render() {
-    return <div style={{display: 'flex'}}>
+    return <div style={{display: 'flex', marginBottom: '1rem'}}>
       <Card elevation={Elevation.TWO} style={{margin: '0.25rem', background: Colors.GRAY5}}>
         <H4>Weapons</H4>
         <Button onClick={this.props.openWeaponModal}>Add Weapon</Button>

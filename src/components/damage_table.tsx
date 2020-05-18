@@ -1,0 +1,274 @@
+import * as React from 'react'
+import { Cell, Column, ColumnHeaderCell, Table, Utils } from "@blueprintjs/table";
+import { RootState } from '../store'
+import { connect, ConnectedProps } from 'react-redux'
+import { Weapon, DamageService, TargetType, Build, Class, Impact, Pressure, Ready, StatType, ClassMod, Gear, WeaponTypeDecorator, Type, Battlefront, GameModeEnum } from 'borderlands2'
+import { MenuItem, Menu } from '@blueprintjs/core';
+require("@blueprintjs/table/lib/css/table.css")
+
+let stats = [{
+/*
+  name: 'Single Shot',
+  field: 'singleShot',
+  value: (ds: DamageService) => Math.round(ds.getDamage()),
+},{
+  name: 'DPS',
+  field: 'dps',
+  value: (ds: DamageService) => Math.round(ds.getDps()),
+},{
+  name: 'Crit Shot',
+  field: 'critShot',
+  value: (ds: DamageService) => Math.round(ds.getCritDamage()),
+},{
+*/
+  name: 'Crit DPS',
+  field: 'critDps',
+  value: (ds: DamageService) => Math.round(ds.getCritDps()),
+},{
+  name: 'Flesh Shot',
+  field: 'fleshShot',
+  value: (ds: DamageService) => Math.round(ds.getDamage(TargetType.Flesh)),
+},{
+  name: 'Flesh DPS',
+  field: 'fleshDps',
+  value: (ds: DamageService) => Math.round(ds.getTargetTypeDps(TargetType.Flesh)),
+},{
+  name: 'Flesh Crit Shot',
+  field: 'fleshCritShot',
+  value: (ds: DamageService) => Math.round(ds.getCritDamage(TargetType.Flesh)),
+},{
+  name: 'Flesh Crit DPS',
+  field: 'fleshCritDps',
+  value: (ds: DamageService) => Math.round(ds.getTargetTypeCritDps(TargetType.Flesh)),
+},{
+  name: 'Armor Shot',
+  field: 'armorShot',
+  value: (ds: DamageService) => Math.round(ds.getDamage(TargetType.Armor)),
+},{
+  name: 'Armor DPS',
+  field: 'armorDps',
+  value: (ds: DamageService) => Math.round(ds.getTargetTypeDps(TargetType.Armor)),
+},{
+  name: 'Armor Crit Shot',
+  field: 'armorCritShot',
+  value: (ds: DamageService) => Math.round(ds.getCritDamage(TargetType.Armor)),
+},{
+  name: 'Armor Crit DPS',
+  field: 'armorCritDps',
+  value: (ds: DamageService) => Math.round(ds.getTargetTypeCritDps(TargetType.Armor)),
+},{
+  name: 'Shield Shot',
+  field: 'shieldShot',
+  value: (ds: DamageService) => Math.round(ds.getDamage(TargetType.Shield)),
+},{
+  name: 'Shield DPS',
+  field: 'shieldDps',
+  value: (ds: DamageService) => Math.round(ds.getTargetTypeDps(TargetType.Shield)),
+},{
+  name: 'Shield Crit Shot',
+  field: 'shieldCritShot',
+  value: (ds: DamageService) => Math.round(ds.getCritDamage(TargetType.Shield)),
+},{
+  name: 'Shield Crit DPS',
+  field: 'shieldCritDps',
+  value: (ds: DamageService) => Math.round(ds.getTargetTypeCritDps(TargetType.Shield)),
+}]
+
+const mapState = (state: RootState) => ({
+  selectedWeaponIds: state.contextReducer.selectedWeaponIds,
+  weapons: state.weaponReducer.weapons
+})
+
+const connector = connect(mapState)
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+export type ICellLookup = (rowIndex: number, columnIndex: number) => any;
+export type ISortCallback = (columnIndex: number, comparator: (a: any, b: any) => number) => void;
+
+export interface ISortableColumn {
+  getColumn(getCellData: ICellLookup, sortColumn: ISortCallback): JSX.Element;
+}
+
+abstract class AbstractSortableColumn implements ISortableColumn {
+  constructor(protected name: string, protected index: number) {}
+
+  public getColumn(getCellData: ICellLookup, sortColumn: ISortCallback) {
+    const cellRenderer = (rowIndex: number, columnIndex: number) => (
+      <Cell>{getCellData(rowIndex, columnIndex)}</Cell>
+    );
+    const menuRenderer = this.renderMenu.bind(this, sortColumn);
+    const columnHeaderCellRenderer = () => <ColumnHeaderCell name={this.name} menuRenderer={menuRenderer} />;
+    return (
+      <Column
+        cellRenderer={cellRenderer}
+        columnHeaderCellRenderer={columnHeaderCellRenderer}
+        key={this.index}
+        name={this.name}
+      />
+    );
+  }
+
+  protected abstract renderMenu(sortColumn: ISortCallback): JSX.Element;
+}
+
+class TextSortableColumn extends AbstractSortableColumn {
+  protected renderMenu(sortColumn: ISortCallback) {
+    const sortAsc = () => sortColumn(this.index, (a, b) => this.compare(a, b));
+    const sortDesc = () => sortColumn(this.index, (a, b) => this.compare(b, a));
+    return (
+      <Menu>
+        <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Asc" />
+        <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Desc" />
+      </Menu>
+    );
+  }
+
+  private compare(a: any, b: any) {
+    return a.toString().localeCompare(b);
+  }
+}
+
+class NumberSortableColumn extends AbstractSortableColumn {
+  protected renderMenu(sortColumn: ISortCallback) {
+    const sortAsc = () => sortColumn(this.index, (a, b) => this.compare(a, b));
+    const sortDesc = () => sortColumn(this.index, (a, b) => this.compare(b, a));
+    return (
+      <Menu>
+        <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Asc" />
+        <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Desc" />
+      </Menu>
+    );
+  }
+
+  private compare(a: any, b: any) {
+    return a - b
+  }
+}
+
+interface DamageTableState {
+  columns: ISortableColumn[],
+  sortedIndexMap: number[],
+  data: any[any]
+}
+
+class DamageTableComponent extends React.Component<PropsFromRedux, DamageTableState> {
+  constructor(props: PropsFromRedux) {
+    super(props)
+
+    let idx = 0
+    this.state = {
+      columns: [
+        new TextSortableColumn('Name', idx++),
+        new TextSortableColumn('Type', idx++),
+        ...stats.map(stat => new NumberSortableColumn(stat.name, idx++))
+      ],
+      sortedIndexMap: [],
+      data: this.compileData(props.selectedWeaponIds, props.weapons)
+    }
+  }
+
+  componentWillUpdate(props: PropsFromRedux) {
+    if(props.selectedWeaponIds !== this.props.selectedWeaponIds || props.weapons !== this.props.weapons) {
+      // sortedIndexMap is hack to prevent undefined reference
+      this.setState({ data: this.compileData(props.selectedWeaponIds, props.weapons), sortedIndexMap: [] })
+    }
+  }
+
+  private compileData(selectedWeaponIds: string[], weapons: Weapon[]): any[any] {
+    let context = {
+      build: new Build(
+        Class.Commando,
+        [
+          new Impact(5),
+          new Pressure(5),
+          new Ready(4)
+        ],
+        new ClassMod([
+        ],[
+          new Battlefront(4)
+        ])
+      ),
+
+      badAssRanking: [{
+        type: StatType.GunDamage,
+        value: 0.084
+      },{
+        type: StatType.FireRate,
+        value: 0.084
+      },{
+        type: StatType.ReloadSpeed,
+        value: 0.087
+      },{
+        type: StatType.CritHitDamage,
+        value: 0.084
+      },{
+        type: StatType.ElementalEffectChance,
+        value: 0.091
+      },{
+        type: StatType.ElementalEffectDamage,
+        value: 0.087
+      },{
+        type: StatType.GrenadeDamage,
+        value: 0.087
+      }],
+
+      relic: new Gear([{
+        type: StatType.GunDamage,
+        value: 0.181
+      },{
+        type: StatType.FireRate,
+        value: 0.49
+      }], WeaponTypeDecorator(Type.Pistol)),
+
+      gameMode: GameModeEnum.TrueVaultHunterMode
+    }
+
+
+    return selectedWeaponIds.map(weaponId => {
+      let weapon = weapons.find(asdf => asdf.id === weaponId)
+      let ds = new DamageService(weapon, context)
+
+      return [
+        weapon.name,
+        weapon.type,
+        ...stats.map(stat => {
+          return stat.value(ds)
+        })
+      ]
+    })
+  }
+
+  private getCellData = (rowIndex: number, columnIndex: number) => {
+    const { data } = this.state
+    const sortedRowIndex = this.state.sortedIndexMap[rowIndex];
+    if (sortedRowIndex != null) {
+      rowIndex = sortedRowIndex;
+    }
+    return data[rowIndex][columnIndex];
+  }
+
+  private sortColumn = (columnIndex: number, comparator: (a: any, b: any) => number) => {
+    const { data } = this.state;
+
+    const sortedIndexMap = Utils.times(data.length, (i: number) => i);
+    sortedIndexMap.sort((a: number, b: number) => {
+      return comparator(data[a][columnIndex], data[b][columnIndex]);
+    });
+    this.setState({ sortedIndexMap });
+  }
+
+  render() {
+    const { columns, data } = this.state
+
+    const columnsMarkup = columns.map(col => col.getColumn(this.getCellData, this.sortColumn));
+
+    return <>
+      <Table numRows={data.length}>
+        {columnsMarkup}
+      </Table>
+    </>
+  }
+}
+
+export let DamageTable = connector(DamageTableComponent)
