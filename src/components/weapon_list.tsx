@@ -1,15 +1,20 @@
 import * as React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Card, Button, H4, Elevation, H5, Colors, Icon } from '@blueprintjs/core'
+import { Card, Button, H4, Elevation, H5, Colors } from '@blueprintjs/core'
 import { RootState } from '../store'
-import { openWeaponModal } from '../store/app/actions'
-import { removeWeapon } from '../store/weapon/actions'
+import { closeWeaponModal, openWeaponModal } from '../store/app/actions'
+import { addWeapon, removeWeapon } from '../store/weapon/actions'
+import { Weapon } from 'borderlands2'
+import { WeaponForm } from './weapon_form'
 
 const mapState = (state: RootState) => ({
+  weaponModal: state.appReducer.weaponModal,
   weapons: state.weaponReducer.weapons
 })
 
 const mapDispatch = {
+  addWeapon,
+  closeWeaponModal,
   openWeaponModal,
   removeWeapon
 }
@@ -21,6 +26,15 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 class WeaponListComponent extends React.Component<PropsFromRedux> {
   constructor(props: PropsFromRedux) {
     super(props)
+  }
+
+  handleSaveWeapon = (weapon: Weapon) => {
+    this.props.addWeapon(weapon)
+    this.props.closeWeaponModal()
+  }
+
+  handleCancelWeapon = () => {
+    this.props.closeWeaponModal()
   }
 
   removeWeapon(weaponName: string) {
@@ -55,6 +69,7 @@ class WeaponListComponent extends React.Component<PropsFromRedux> {
       <div style={{overflowX: 'auto', whiteSpace: 'nowrap', display: 'flex'}}>
         {this.renderWeapons()}
       </div>
+      <WeaponForm isOpen={this.props.weaponModal} onSave={this.handleSaveWeapon} onCancel={this.handleCancelWeapon} />
     </div>
   }
 }

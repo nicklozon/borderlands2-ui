@@ -3,7 +3,7 @@ const classNames = require('classnames')
 import { Weapon, Manufacturer, Type, ElementalEffect } from 'borderlands2'
 import { ManufacturerSelectorInput, WeaponTypeSelectorInput, ElementalEffectSelectorInput } from './enum_selector_inputs'
 import { Button, FormGroup, InputGroup, Classes, HTMLSelect, Switch, Overlay } from '@blueprintjs/core'
-import { RedTextEnum } from 'borderlands2/dist/domain/player/object/red_text'
+import { RedTextEnum } from 'borderlands2'
 
 interface WeaponFormProps {
   isOpen?: boolean,
@@ -11,7 +11,7 @@ interface WeaponFormProps {
   onCancel: () => void
 }
 
-export default class WeaponForm extends React.Component<WeaponFormProps, Weapon> {
+export class WeaponForm extends React.Component<WeaponFormProps, Weapon> {
   constructor(props: WeaponFormProps) {
     super(props)
 
