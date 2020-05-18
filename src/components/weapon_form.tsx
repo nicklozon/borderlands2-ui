@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import * as React from 'react'
 const classNames = require('classnames')
 import { Weapon, Manufacturer, Type, ElementalEffect } from 'borderlands2'
@@ -56,7 +57,7 @@ export class WeaponForm extends React.Component<WeaponFormProps, Weapon> {
   }
 
   handleSave = () => {
-    this.props.onSave(this.state)
+    this.props.onSave({ ...this.state, id: uuidv4() })
   }
 
   handleCancel = () => {
@@ -183,7 +184,7 @@ export class WeaponForm extends React.Component<WeaponFormProps, Weapon> {
             >
               <HTMLSelect value={state.redText} onChange={this.onChangeEvent('redText')}>
                 <option>None</option>
-                {Object.values(RedTextEnum).map(text => <option>{text}</option>)}
+                {Object.values(RedTextEnum).map(text => <option key={text}>{text}</option>)}
               </HTMLSelect>
             </FormGroup>
           </div>

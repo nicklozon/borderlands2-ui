@@ -15,9 +15,9 @@ export function updateBuild(build: Build): BuildActionTypes {
   }
 } 
 
-export function deleteBuild(buildName: string): BuildActionTypes {
+export function deleteBuild(buildId: string): BuildActionTypes {
   return {
     type: DELETE_BUILD,
-    buildName
+    buildId
   }
 } 

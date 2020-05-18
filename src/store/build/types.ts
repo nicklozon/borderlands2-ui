@@ -16,7 +16,7 @@ export interface UpdateBuildAction {
 
 export interface DeleteBuildAction {
   type: typeof DELETE_BUILD,
-  buildName: string
+  buildId: string
 }
 
 export interface BuildState {

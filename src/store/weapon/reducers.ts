@@ -13,11 +13,13 @@ export function weaponReducer(state = initialState, action: WeaponActionTypes): 
       }
     case UPDATE_WEAPON:
       return {
-        weapons: [...state.weapons.filter(weapon => weapon.name !== action.weapon.name), action.weapon]
+        weapons: state.weapons.map(weapon => {
+          return weapon.id === action.weapon.id ? action.weapon : weapon
+        })
       }
     case DELETE_WEAPON:
       return {
-        weapons: state.weapons.filter(weapon => weapon.name !== action.weaponName)
+        weapons: state.weapons.filter(weapon => weapon.id !== action.weaponId)
       }
     default:
       return state

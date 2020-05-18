@@ -15,9 +15,9 @@ export function updateWeapon(weapon: Weapon): WeaponActionTypes {
   }
 }
 
-export function removeWeapon(weaponName: string): WeaponActionTypes {
+export function removeWeapon(weaponId: string): WeaponActionTypes {
   return {
     type: DELETE_WEAPON,
-    weaponName
+    weaponId
   }
 }

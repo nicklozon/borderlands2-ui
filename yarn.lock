@@ -1189,6 +1189,11 @@
   dependencies:
     source-map "^0.6.1"
 
+"@types/uuid@^7.0.3":
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-7.0.3.tgz#45cd03e98e758f8581c79c535afbd4fc27ba7ac8"
+  integrity sha512-PUdqTZVrNYTNcIhLHkiaYzoOIaUi5LFg/XLerAdgvwQrUCx+oSbtoBze1AMyvYbcwzUSNC+Isl58SM4Sm/6COw==
+
 "@types/webpack-sources@*":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@types/webpack-sources/-/webpack-sources-0.1.7.tgz#0a330a9456113410c74a5d64180af0cbca007141"
@@ -1830,12 +1835,13 @@ boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-borderlands2@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/borderlands2/-/borderlands2-0.4.1.tgz#f7c4f888e5bbe01c47c91b9b096a422ed420889e"
-  integrity sha512-vUebIB+ykl5D1QkmUxzuCNuMi1hhfOvQn90TXtn2TjULMBnr+af/f4yiEb78hgG2y1povenZMdl/sF0aoVkhDA==
+borderlands2@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/borderlands2/-/borderlands2-0.5.0.tgz#7492271c1419fc00a998660275054571fa60819f"
+  integrity sha512-DG7cYsRjG22cDiNe/Za1aPGPxenYm7ZcuSOpA3k/7ZuvlWtHhi+uZEQBtHbcXzBIBaSnbuRrvPaNKjtEK19dBg==
   dependencies:
     console-table-printer "^1.1.64"
+    uuid "^8.0.0"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -8071,6 +8077,11 @@ uuid@^3.0.1, uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.0.0.tgz#bc6ccf91b5ff0ac07bbcdbf1c7c4e150db4dbb6c"
+  integrity sha512-jOXGuXZAWdsTH7eZLtyXMqUb9EcWMGZNbL9YcGBJl4MH4nrxHmZJhEHvyLFrkxo+28uLb/NYRcStH48fnD0Vzw==
 
 v8-compile-cache@2.0.3:
   version "2.0.3"

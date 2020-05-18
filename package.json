@@ -8,16 +8,18 @@
   "dependencies": {
     "@blueprintjs/core": "^3.26.1",
     "@types/react-redux": "^7.1.8",
-    "borderlands2": "^0.4.1",
+    "borderlands2": "^0.5.0",
     "classnames": "^2.2.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
+    "@types/uuid": "^7.0.3",
     "@webpack-cli/serve": "^0.2.0",
     "css-loader": "^3.5.3",
     "html-webpack-plugin": "^4.3.0",

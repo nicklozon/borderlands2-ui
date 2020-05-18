@@ -16,7 +16,7 @@ export interface UpdateWeaponAction {
 
 export interface DeleteWeaponAction {
   type: typeof DELETE_WEAPON,
-  weaponName: string
+  weaponId: string
 } 
 
 export interface WeaponState {
