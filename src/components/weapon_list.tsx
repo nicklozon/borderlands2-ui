@@ -4,12 +4,14 @@ import { Card, Button, H4, Elevation, H5, Colors } from '@blueprintjs/core'
 import { RootState } from '../store'
 import { closeWeaponModal, openWeaponModal } from '../store/app/actions'
 import { addWeapon, removeWeapon, updateWeapon } from '../store/weapon/actions'
+import { toggleWeapon } from '../store/context/actions'
 import { Weapon } from 'borderlands2'
 import { WeaponForm } from './weapon_form'
 
 const mapState = (state: RootState) => ({
   weaponModal: state.appReducer.weaponModal,
-  weapons: state.weaponReducer.weapons
+  weapons: state.weaponReducer.weapons,
+  selectedWeaponIds: state.contextReducer.selectedWeaponIds
 })
 
 const mapDispatch = {
@@ -17,7 +19,8 @@ const mapDispatch = {
   closeWeaponModal,
   openWeaponModal,
   updateWeapon,
-  removeWeapon
+  removeWeapon,
+  toggleWeapon
 }
 
 const connector = connect(mapState, mapDispatch)
@@ -38,15 +41,23 @@ class WeaponListComponent extends React.Component<PropsFromRedux> {
     this.props.closeWeaponModal()
   }
 
-  removeWeapon(weaponName: string) {
-    return () => this.props.removeWeapon(weaponName)
+  selectWeapon(weaponId: string) {
+    return () => this.props.toggleWeapon(weaponId)
+  }
+
+  removeWeapon(weaponId: string) {
+    return () => this.props.removeWeapon(weaponId)
   }
 
   renderWeapons() {
-    const { weapons } = this.props
+    const { weapons, selectedWeaponIds } = this.props
 
     return weapons.map(weapon => {
-      return <Card key={weapon.id} style={{margin: '0.25rem', position: 'relative', minWidth: '7rem'}}>
+      if(selectedWeaponIds.includes(weapon.id)) {
+        var style = { background: Colors.GREEN5 }
+      }
+
+      return <Card key={weapon.id} interactive onClick={this.selectWeapon(weapon.id)} style={{margin: '0.25rem', position: 'relative', minWidth: '7rem', ...style}}>
         <H5>{weapon.name}</H5>
         <p>
           Manufacturer: {weapon.manufacturer}<br />

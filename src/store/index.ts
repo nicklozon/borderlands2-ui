@@ -3,6 +3,7 @@ import { devToolsEnhancer } from 'redux-devtools-extension';
 import { appReducer } from './app/reducers'
 import { weaponReducer } from './weapon/reducers'
 import { buildReducer } from './build/reducers'
+import { contextReducer } from './context/reducers'
 
 export const loadState = () => {
   try {
@@ -16,7 +17,7 @@ export const loadState = () => {
   }
 }; 
 
-const rootReducer = combineReducers({appReducer, weaponReducer, buildReducer})
+const rootReducer = combineReducers({appReducer, weaponReducer, buildReducer, contextReducer})
 
 // I don't know how to make the dev tools work with state loading
 export const RootStore = createStore(rootReducer, loadState());
