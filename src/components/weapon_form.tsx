@@ -39,7 +39,11 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
   constructor(props: WeaponFormProps) {
     super(props)
 
-    this.state = {
+    this.state = this.initialState()
+  }
+  
+  initialState(): WeaponFormState {
+    return {
       id: undefined,
       name: undefined,
       manufacturer: undefined,
@@ -59,7 +63,7 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
       elementalChance: undefined,
       elementalDps: undefined,
       isEtech: undefined,
-      redText: undefined,
+      redText: undefined
     }
   }
 
@@ -115,6 +119,7 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
     if(this.isValidWeapon()) {
       //@ts-ignore
       this.props.onSave({ ...this.state, id: uuidv4() })
+      this.setState(this.initialState())
     }
   }
 
@@ -228,7 +233,7 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
             label="Elemental Damage Type"
             labelFor="elemental_damage_type"
           >
-            <ElementalEffectSelectorInput selectedValue={state.elementalEffect || ''} onChange={this.onChange('elementalEffect')} />
+            <ElementalEffectSelectorInput selectedValue={state.elementalEffect} onChange={this.onChange('elementalEffect')} />
           </FormGroup>
           <div style={containerStyle}>
             <FormGroup
