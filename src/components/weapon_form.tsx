@@ -17,20 +17,18 @@ interface WeaponFormState {
   name?: string;
   manufacturer?: Manufacturer;
   type?: Type;
-  level?: number;
-  damage?: number;
-  fireRate?: number;
-  reloadSpeed?: number;
-  magazineSize?: number;
-  elementalEffect?: ElementalEffect;
-  accuracy?: number;
-  pellets?: number;
-  unlistedPellets?: number;
-  ammoPerShot?: number;
+  damage?: string; // number
+  fireRate?: string; // number
+  reloadSpeed?: string; // number
+  magazineSize?: string; // number
+  pellets?: string; // number
+  unlistedPellets?: string; // number
+  ammoPerShot?: string; // number
   dealsBonusElementalDamage?: boolean;
-  stats?: Stat[];
-  elementalChance?: number;
-  elementalDps?: number;
+  critHitDamage?: string; // number in stats
+  elementalEffect?: ElementalEffect;
+  elementalChance?: string; // number
+  elementalDps?: string; // number
   isEtech?: boolean;
   redText?: RedTextEnum;
 }
@@ -48,58 +46,37 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
       name: undefined,
       manufacturer: undefined,
       type: undefined,
-      level: undefined,
       damage: undefined,
       fireRate: undefined,
       reloadSpeed: undefined,
       magazineSize: undefined,
       elementalEffect: undefined,
-      accuracy: undefined,
       pellets: undefined,
       unlistedPellets: undefined,
       ammoPerShot: undefined,
       dealsBonusElementalDamage: undefined,
-      stats: undefined,
       elementalChance: undefined,
       elementalDps: undefined,
       isEtech: undefined,
-      redText: undefined
+      redText: undefined,
+      critHitDamage: undefined
     }
   }
 
-  onChange(field: keyof Weapon) {
+  onChange(field: keyof WeaponFormState) {
     return (value: any) => {
       this.setState({
         [field]: value
-      } as Pick<Weapon, keyof Weapon>)
+      } as Pick<WeaponFormState, keyof WeaponFormState>)
     }
   }
 
-  onChangeEvent(field: keyof Weapon) {
+  onChangeEvent(field: keyof WeaponFormState) {
     return (event: any) => {
       this.setState({
         [field]: event.target.value
-      } as Pick<Weapon, keyof Weapon>)
+      } as Pick<WeaponFormState, keyof WeaponFormState>)
     }
-  }
-
-  onChangeFloatEvent(field: keyof Weapon) {
-    return (event: any) => {
-      this.setState({
-        [field]: parseFloat(event.target.value)
-      })
-    }
-  }
-
-  // This is the only stat that a weapon can have that nees to be added
-  // The Stat[] should be removed from the weapon in the library
-  onCritHitDamageChange = (event: any) => {
-    this.setState({
-      stats: [{
-        type: StatType.CritHitDamage,
-        value: parseFloat(event.target.value)
-      }]
-    })
   }
 
   // This is disgusting
@@ -116,9 +93,28 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
   }
 
   handleSave = () => {
+    const state = this.state
+
     if(this.isValidWeapon()) {
-      //@ts-ignore
-      this.props.onSave({ ...this.state, id: uuidv4() })
+      this.props.onSave({
+        id: uuidv4(),
+        name: state.name,
+        manufacturer: state.manufacturer,
+        type: state.type,
+        damage: parseInt(state.damage),
+        fireRate: parseFloat(state.fireRate),
+        reloadSpeed: parseFloat(state.reloadSpeed),
+        magazineSize: parseInt(state.magazineSize),
+        pellets: state.pellets ? parseInt(state.pellets) : undefined,
+        ammoPerShot: state.ammoPerShot ?  parseInt(state.ammoPerShot) : undefined,
+        dealsBonusElementalDamage: state.dealsBonusElementalDamage,
+        elementalEffect: state.elementalEffect,
+        elementalChance: state.elementalChance ? parseFloat(state.elementalChance) : undefined,
+        elementalDps: state.elementalDps ? parseFloat(state.elementalDps) : undefined,
+        isEtech: state.isEtech,
+        redText: state.redText,
+        stats: state.critHitDamage ? [{type: StatType.CritHitDamage, value: parseFloat(state.critHitDamage)}] : undefined
+      })
       this.setState(this.initialState())
     }
   }
@@ -130,23 +126,12 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
   isValidWeapon = () => {
     const weapon = this.state
 
-    return typeof weapon.name === 'string' &&
-      typeof weapon.manufacturer === 'string' &&
-      typeof weapon.damage === 'number' &&
-      typeof weapon.fireRate === 'number' &&
-      typeof weapon.reloadSpeed === 'number' &&
-      typeof weapon.magazineSize === 'number'
-  }
-
-  getStringValue = (value: number|boolean) => {
-    return !value && value !== 0 ? '' : value.toString()
-  }
-
-  getCritHitDamageValue = (): string => {
-    const { stats } = this.state
-    if(!stats || stats.length === 0) return ''
-
-    return stats[0].value.toString()
+    return weapon.name &&
+      weapon.manufacturer &&
+      weapon.damage &&
+      weapon.fireRate &&
+      weapon.reloadSpeed &&
+      weapon.magazineSize
   }
 
   render() {
@@ -168,13 +153,13 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
         label="Elemental DPS"
         labelFor="elementalDps"
       >
-        <InputGroup id="elementalDps" value={this.getStringValue(state.elementalDps)} onChange={this.onChangeFloatEvent('elementalDps')} />
+        <InputGroup id="elementalDps" value={state.elementalDps || ''} onChange={this.onChangeEvent('elementalDps')} />
       </FormGroup>
       <FormGroup
         label="Elemental Chance"
         labelFor="elementalChance"
       >
-        <InputGroup id="keyof WeaponelementalChance" value={this.getStringValue(state.elementalChance)} onChange={this.onChangeFloatEvent('elementalChance')} />
+        <InputGroup id="keyof WeaponelementalChance" value={state.elementalChance || ''} onChange={this.onChangeEvent('elementalChance')} />
       </FormGroup>
      </> : null
 
@@ -194,27 +179,27 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
               labelFor="damage"
             >
               <ControlGroup>
-                <InputGroup id="damage" value={this.getStringValue(state.damage)} onChange={this.onChangeFloatEvent('damage')} />
-                <InputGroup id="pellets" placeholder="1" value={this.getStringValue(state.pellets)} onChange={this.onChangeFloatEvent('pellets')} />
+                <InputGroup id="damage" value={state.damage || ''} onChange={this.onChangeEvent('damage')} />
+                <InputGroup id="pellets" placeholder="1" value={state.pellets || ''} onChange={this.onChangeEvent('pellets')} />
               </ControlGroup>
             </FormGroup>
             <FormGroup
               label="Fire Rate"
               labelFor="fireRate"
             >
-              <InputGroup id="fireRate" value={this.getStringValue(state.fireRate)} onChange={this.onChangeFloatEvent('fireRate')} />
+              <InputGroup id="fireRate" value={state.fireRate || ''} onChange={this.onChangeEvent('fireRate')} />
             </FormGroup>
             <FormGroup
               label="Reload Speed"
               labelFor="reloadSpeed"
             >
-              <InputGroup id="reloadSpeed" value={this.getStringValue(state.reloadSpeed)} onChange={this.onChangeFloatEvent('reloadSpeed')} />
+              <InputGroup id="reloadSpeed" value={state.reloadSpeed || ''} onChange={this.onChangeEvent('reloadSpeed')} />
             </FormGroup>
             <FormGroup
               label="Magazine Size"
               labelFor="magazineSize"
             >
-              <InputGroup id="magazineSize" value={this.getStringValue(state.magazineSize)} onChange={this.onChangeFloatEvent('magazineSize')} />
+              <InputGroup id="magazineSize" value={state.magazineSize || ''} onChange={this.onChangeEvent('magazineSize')} />
             </FormGroup>
           </div>
           <FormGroup
@@ -250,13 +235,13 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
               label="Ammo Per Shot"
               labelFor="ammo_per_shot"
             >
-              <InputGroup id="ammoPerShot" placeholder="1" value={this.getStringValue(state.ammoPerShot)} onChange={this.onChangeFloatEvent('ammoPerShot')} />
+              <InputGroup id="ammoPerShot" placeholder="1" value={state.ammoPerShot || ''} onChange={this.onChangeEvent('ammoPerShot')} />
             </FormGroup>
             <FormGroup
               label="Critical Hit Damage"
               labelFor="criticalHitDamage"
             >
-              <InputGroup id="criticalHitDamage" value={this.getCritHitDamageValue()} onChange={this.onCritHitDamageChange} />
+              <InputGroup id="criticalHitDamage" value={state.critHitDamage || ''} onChange={this.onChangeEvent('critHitDamage')} />
             </FormGroup>
           </div>
           <div style={containerStyle}>
