@@ -1847,12 +1847,13 @@ boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-borderlands2@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/borderlands2/-/borderlands2-0.5.0.tgz#7492271c1419fc00a998660275054571fa60819f"
-  integrity sha512-DG7cYsRjG22cDiNe/Za1aPGPxenYm7ZcuSOpA3k/7ZuvlWtHhi+uZEQBtHbcXzBIBaSnbuRrvPaNKjtEK19dBg==
+borderlands2@^0.5.5:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/borderlands2/-/borderlands2-0.5.5.tgz#1f9d4c0ebf0c014a93c6e008d8daf3649a58928a"
+  integrity sha512-ZvY5BzjP0kfEkjArAdQcroyDE0Q47U82J8/LUmyi4CH6wjs9u+RoZUzsg+RVcDk0jqAV6wgzrYIRGnD9S1rIyw==
   dependencies:
     console-table-printer "^1.1.64"
+    typescript-memoize "^1.0.0-alpha.3"
     uuid "^8.0.0"
 
 brace-expansion@^1.1.7:
@@ -2472,6 +2473,11 @@ core-js-compat@^3.6.2:
   dependencies:
     browserslist "^4.8.5"
     semver "7.0.0"
+
+core-js@2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.4.1.tgz#4de911e667b0eae9124e34254b53aea6fc618d3e"
+  integrity sha1-TekR5mew6ukSTjQlS1OupvxhjT4=
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -7896,6 +7902,13 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+typescript-memoize@^1.0.0-alpha.3:
+  version "1.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/typescript-memoize/-/typescript-memoize-1.0.0-alpha.3.tgz#699a5415f886694a8d6e2e5451bc28a39a6bc2f9"
+  integrity sha1-aZpUFfiGaUqNbi5UUbwoo5prwvk=
+  dependencies:
+    core-js "2.4.1"
 
 typescript@^3.8.3:
   version "3.8.3"
