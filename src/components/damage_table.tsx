@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Cell, Column, ColumnHeaderCell, Table, Utils } from "@blueprintjs/table";
 import { RootState } from '../store'
 import { connect, ConnectedProps } from 'react-redux'
-import { Weapon, DamageService, TargetType, Build, Class, Impact, Pressure, Ready, StatType, ClassMod, Gear, WeaponTypeDecorator, Type, Battlefront, GameModeEnum } from 'borderlands2'
+import { Weapon, DamageService, TargetType, Build, Class, StatType, ClassMod, WeaponTypeDecorator, Type, GameModeEnum, FastHands, Fearless, RisingSh0t, DeathMark, Ambush, Innervate, HeadSh0t, Vel0city, RisingSh0tEffect } from 'borderlands2'
 import { MenuItem, Menu } from '@blueprintjs/core';
 require("@blueprintjs/table/lib/css/table.css")
 
@@ -176,50 +176,78 @@ class DamageTableComponent extends React.Component<PropsFromRedux, DamageTableSt
   }
 
   private compileData(selectedWeaponIds: string[], weapons: Weapon[]): any[any] {
+    let effect = new RisingSh0tEffect()
+    effect.multiplier.setValue(0)
+
+    let classModA = new ClassMod([{
+        type: StatType.FireRate,
+        value: 0.21,
+        decorator: WeaponTypeDecorator(Type.Pistol)
+      },{
+        type: StatType.MagazineSize,
+        value: 0.23,
+        decorator: WeaponTypeDecorator(Type.Pistol)
+      }],[
+        new RisingSh0t(2)
+      ])
+
+    let classModB = new ClassMod([{
+        type: StatType.GunDamage,
+        value: 0.29,
+        decorator: WeaponTypeDecorator(Type.SniperRifle)
+      },{
+        type: StatType.CritHitDamage,
+        value: 0.31,
+        //decorator: WeaponTypeDecorator(Type.SniperRifle) // bugged
+      }],[
+        //new OneSh0tOneKill(4),
+        //new Precision(3),
+        new HeadSh0t(3),
+      ])
+
     let context = {
       build: new Build(
-        Class.Commando,
+        Class.Assassin,
         [
-          new Impact(5),
-          new Pressure(5),
-          new Ready(4)
+          new FastHands(5),
+          new Fearless(5),
+          new RisingSh0t(5), 
+          new DeathMark(1),
+          new Ambush(5),
+          new Innervate(5),
+          new HeadSh0t(5),
+          new Vel0city(3)
         ],
-        new ClassMod([
-        ],[
-          new Battlefront(4)
-        ])
+        classModB
       ),
 
       badAssRanking: [{
         type: StatType.GunDamage,
-        value: 0.084
+        value: 0.095
       },{
         type: StatType.FireRate,
-        value: 0.084
-      },{
-        type: StatType.ReloadSpeed,
-        value: 0.087
-      },{
-        type: StatType.CritHitDamage,
-        value: 0.084
-      },{
-        type: StatType.ElementalEffectChance,
         value: 0.091
       },{
+        type: StatType.ReloadSpeed,
+        value: 0.098
+      },{
+        type: StatType.CritHitDamage,
+        value: 0.095
+      },{
+        type: StatType.ElementalEffectChance,
+        value: 0.098
+      },{
         type: StatType.ElementalEffectDamage,
-        value: 0.087
+        value: 0.102
       },{
         type: StatType.GrenadeDamage,
-        value: 0.087
+        value: 0.098
       }],
 
-      relic: new Gear([{
-        type: StatType.GunDamage,
-        value: 0.181
-      },{
-        type: StatType.FireRate,
-        value: 0.49
-      }], WeaponTypeDecorator(Type.Pistol)),
+      effects: [
+        effect
+      ],
+      
 
       gameMode: GameModeEnum.TrueVaultHunterMode
     }
