@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Cell, Column, ColumnHeaderCell, Table, Utils } from "@blueprintjs/table";
 import { RootState } from '../store'
 import { connect, ConnectedProps } from 'react-redux'
-import { Weapon, DamageService, TargetType, Build, Class, StatType, ClassMod, WeaponTypeDecorator, Type, GameModeEnum, FastHands, Fearless, RisingSh0t, DeathMark, Ambush, Innervate, HeadSh0t, Vel0city, RisingSh0tEffect } from 'borderlands2'
+import { Weapon, DamageService, TargetType, Build, Class, StatType, ClassMod, WeaponTypeDecorator, Type, GameModeEnum, FastHands, Fearless, RisingSh0t, DeathMark, Ambush, Innervate, HeadSh0t, Vel0city, RisingSh0tEffect, OneSh0tOneKill } from 'borderlands2'
 import { MenuItem, Menu } from '@blueprintjs/core';
 require("@blueprintjs/table/lib/css/table.css")
 
@@ -205,37 +205,51 @@ class DamageTableComponent extends React.Component<PropsFromRedux, DamageTableSt
         new HeadSh0t(3),
       ])
 
+    let classModC = new ClassMod([{
+        type: StatType.GunDamage,
+        value: 0.33,
+        decorator: WeaponTypeDecorator(Type.SniperRifle)
+      },{
+        type: StatType.CritHitDamage,
+        value: 0.31,
+        //decorator: WeaponTypeDecorator(Type.SniperRifle) // bugged
+      }],[
+        new OneSh0tOneKill(6),
+        //new Precision(5),
+        //new HeadSh0t(3),
+      ])
+
     let context = {
       build: new Build(
         Class.Assassin,
         [
           new FastHands(5),
-          new Fearless(5),
           new RisingSh0t(5), 
           new DeathMark(1),
           new Ambush(5),
           new Innervate(5),
           new HeadSh0t(5),
-          new Vel0city(3)
+          new Vel0city(3),
+          new OneSh0tOneKill(5)
         ],
-        classModB
+        classModC
       ),
 
       badAssRanking: [{
         type: StatType.GunDamage,
-        value: 0.095
+        value: 0.102
       },{
         type: StatType.FireRate,
-        value: 0.091
-      },{
-        type: StatType.ReloadSpeed,
-        value: 0.098
-      },{
-        type: StatType.CritHitDamage,
         value: 0.095
       },{
+        type: StatType.ReloadSpeed,
+        value: 0.102
+      },{
+        type: StatType.CritHitDamage,
+        value: 0.102
+      },{
         type: StatType.ElementalEffectChance,
-        value: 0.098
+        value: 0.105
       },{
         type: StatType.ElementalEffectDamage,
         value: 0.102
