@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid'
 import * as React from 'react'
 const classNames = require('classnames')
-import { Weapon, Manufacturer, Type, ElementalEffect, StatType, Stat } from 'borderlands2'
+import { Weapon, Manufacturer, Type, ElementalEffect, StatType } from 'borderlands2'
 import { ManufacturerSelectorInput, WeaponTypeSelectorInput, ElementalEffectSelectorInput } from './enum_selector_inputs'
-import { Button, FormGroup, InputGroup, Classes, HTMLSelect, Switch, Overlay, ControlGroup } from '@blueprintjs/core'
+import { Button, FormGroup, InputGroup, Classes, HTMLSelect, Switch, ControlGroup, Dialog } from '@blueprintjs/core'
 import { RedTextEnum } from 'borderlands2'
 
 interface WeaponFormProps {
@@ -138,11 +138,6 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
     const state = this.state
     const { isOpen } = this.props
 
-    const classes = classNames(
-        Classes.CARD,
-        Classes.ELEVATION_4
-    );
-
     // this needs to be css/sass
     const containerStyle = {
       display: 'flex'
@@ -164,12 +159,12 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
      </> : null
 
     return (
-      <Overlay isOpen={isOpen}>
-        <div className={classes}>
+      <Dialog isOpen={isOpen} onClose={this.handleCancel} icon="box" title="Add New Weapon" style={{width: 800}} canOutsideClickClose canEscapeKeyClose>
+        <div className={Classes.DIALOG_BODY}>
           <FormGroup
             label="Name"
             labelFor="name"
-            helperText="Does not affect any calculation"
+            helperText="Does not impact any calculation"
           >
             <InputGroup id="name" placeholder="Name of the weapon" value={state.name || ''} onChange={this.onChangeEvent('name')} />
           </FormGroup>
@@ -252,10 +247,14 @@ export class WeaponForm extends React.Component<WeaponFormProps, WeaponFormState
               <Switch label="E-Tech" checked={state.isEtech === true} onChange={this.onBooleanChangeEvent('isEtech')} large />
             </FormGroup>
           </div>
-          {this.isValidWeapon() && <Button onClick={this.handleSave} intent="primary">Save {state.manufacturer || ''} {state.type || ''}</Button>}
-          <Button onClick={this.handleCancel} intent="danger">Cancel</Button>
         </div>
-      </Overlay>
+        <div className={Classes.DIALOG_FOOTER}>
+          <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+            {this.isValidWeapon() && <Button onClick={this.handleSave} intent="primary">Save {state.manufacturer || ''} {state.type || ''}</Button>}
+            <Button onClick={this.handleCancel} intent="danger">Cancel</Button>
+          </div>
+        </div>
+      </Dialog>
     )
   }
 }
