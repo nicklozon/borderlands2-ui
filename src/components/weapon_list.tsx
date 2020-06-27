@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Card, Button, H4, Elevation, H5, Colors } from '@blueprintjs/core'
+import { Card, Button, H5, Colors } from '@blueprintjs/core'
 import { RootState } from '../store'
-import { closeWeaponModal, openWeaponModal } from '../store/app/actions'
+import { closeWeaponModal } from '../store/app/actions'
 import { addWeapon, removeWeapon, updateWeapon } from '../store/weapon/actions'
 import { deselectWeapon, toggleWeapon } from '../store/context/actions'
 import { Weapon } from 'borderlands2'
@@ -17,7 +17,6 @@ const mapState = (state: RootState) => ({
 const mapDispatch = {
   addWeapon,
   closeWeaponModal,
-  openWeaponModal,
   updateWeapon,
   removeWeapon,
   deselectWeapon,
@@ -81,10 +80,6 @@ class WeaponListComponent extends React.Component<PropsFromRedux> {
 
   render() {
     return <div style={{display: 'flex', marginBottom: '1rem'}}>
-      <Card elevation={Elevation.TWO} style={{margin: '0.25rem', background: Colors.GRAY5}}>
-        <H4>Weapons</H4>
-        <Button onClick={this.props.openWeaponModal}>Add Weapon</Button>
-      </Card>
       <div style={{overflowX: 'auto', whiteSpace: 'nowrap', display: 'flex'}}>
         {this.renderWeapons()}
       </div>

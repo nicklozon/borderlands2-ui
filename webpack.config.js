@@ -6,7 +6,7 @@ module.exports = {
   mode: "production",
   devtool: "source-map",
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".css"]
+    extensions: [".ts", ".tsx", ".js", ".css", ".sass", ".scss"]
   },
   module: {
     rules: [{
@@ -30,6 +30,20 @@ module.exports = {
       test: /\.woff2?$/,
       use: [{
         loader: "url-loader?limit=100000"
+      }]
+    },{
+      test: /\.(scss|sass)$/,
+      use:[{
+        loader: "style-loader"
+      },{
+        loader: "css-modules-typescript-loader"
+      },{
+        loader: "css-loader",
+        options: {
+          modules: true
+        }
+      },{
+        loader: "sass-loader"
       }]
     }]
   },
