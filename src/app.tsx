@@ -5,6 +5,7 @@ import LibVersion from './components/lib_version'
 import { WeaponList } from './components/weapon_list'
 import { DamageTable } from './components/damage_table'
 import { NavBar } from './components/navbar/navbar'
+import { GearList } from './components/gear_list'
 
 const mapState = (state: RootState) => ({
 })
@@ -25,6 +26,7 @@ class AppComponent extends React.Component<PropsFromRedux> {
     return (
       <>
         <NavBar />
+        <GearList />
         <WeaponList />
         <DamageTable />
         <LibVersion />

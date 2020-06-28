@@ -4,7 +4,6 @@ const initialState: WeaponState = {
   weapons: []
 }
 
-// TODO: need to use a uniqe ID for update/delete
 export function weaponReducer(state = initialState, action: WeaponActionTypes): WeaponState {
   switch(action.type) {
     case ADD_WEAPON:

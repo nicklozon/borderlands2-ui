@@ -1892,10 +1892,10 @@ boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-borderlands2@^0.5.8:
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/borderlands2/-/borderlands2-0.5.8.tgz#a8b5eda0f65745473dc1be93cc41e7486539de2a"
-  integrity sha512-6i5p71WiTfcG5Gj/hr1gOTBOLrYIzRvejki5tlczgERBKzRAf9o+jt5Kk2YccNCa3T/PCzhlPzRReIcaKYxe6A==
+borderlands2@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/borderlands2/-/borderlands2-0.6.0.tgz#a523148d0ebbeb00df544ea7cf6483c8ab9df900"
+  integrity sha512-MVeOGAZcqlIeDORFGdUKYgrE2uSG28QCBS/q32NBd0kII0VsOtqBTTqvt/gp9Pm8fABcZJ+ZKC245GjG4MK6Og==
   dependencies:
     console-table-printer "^1.1.64"
     typescript-memoize "^1.0.0-alpha.3"

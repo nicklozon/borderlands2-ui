@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Manufacturer, Type, ElementalEffect } from 'borderlands2'
+import { Manufacturer, Type, ElementalEffect, GearType } from 'borderlands2'
 import { Button, ButtonGroup, Intent } from '@blueprintjs/core'
 
 interface EnumSelectorInputProps {
@@ -65,3 +65,4 @@ function createEnumSelectorInput(E: any, allowNull?: boolean) {
 export class ManufacturerSelectorInput extends createEnumSelectorInput(Manufacturer) {}
 export class WeaponTypeSelectorInput extends createEnumSelectorInput(Type) {}
 export class ElementalEffectSelectorInput extends createEnumSelectorInput(ElementalEffect, true) {}
+export class GearTypeSelectorInput extends createEnumSelectorInput(GearType) {}

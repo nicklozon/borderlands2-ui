@@ -4,6 +4,7 @@ import { appReducer } from './app/reducers'
 import { weaponReducer } from './weapon/reducers'
 import { badassRankingReducer } from './badass_ranking/reducers'
 import { buildReducer } from './build/reducers'
+import { gearReducer } from './gear/reducers'
 import { contextReducer } from './context/reducers'
 
 export const loadState = () => {
@@ -18,7 +19,7 @@ export const loadState = () => {
   }
 }; 
 
-const rootReducer = combineReducers({appReducer, weaponReducer, badassRankingReducer, buildReducer, contextReducer})
+const rootReducer = combineReducers({appReducer, weaponReducer, badassRankingReducer, buildReducer, contextReducer, gearReducer})
 
 // I don't know how to make the dev tools work with state loading
 export const RootStore = createStore(rootReducer, loadState());
