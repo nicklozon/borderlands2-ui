@@ -2,86 +2,27 @@ import * as React from 'react'
 import { Cell, Column, ColumnHeaderCell, Table, Utils } from "@blueprintjs/table";
 import { RootState } from '../store'
 import { connect, ConnectedProps } from 'react-redux'
-import { Weapon, DamageService, TargetType, Build, Class, StatType, ClassMod, WeaponTypeDecorator, Type, GameModeEnum, FastHands, Fearless, RisingSh0t, DeathMark, Ambush, Innervate, HeadSh0t, Vel0city, RisingSh0tEffect, OneSh0tOneKill } from 'borderlands2'
+import { Weapon, DamageService, TargetType, Build, Class, StatType, ClassMod, WeaponTypeDecorator, Type, GameModeEnum, FastHands, Fearless, RisingSh0t, DeathMark, Ambush, Innervate, HeadSh0t, Vel0city, RisingSh0tEffect, OneSh0tOneKill, Stat } from 'borderlands2'
 import { MenuItem, Menu } from '@blueprintjs/core';
 require("@blueprintjs/table/lib/css/table.css")
 
-let stats = [{
-/*
-  name: 'Single Shot',
-  field: 'singleShot',
-  value: (ds: DamageService) => Math.round(ds.getDamage()),
-},{
-  name: 'DPS',
-  field: 'dps',
-  value: (ds: DamageService) => Math.round(ds.getDps()),
-},{
-  name: 'Crit Shot',
-  field: 'critShot',
-  value: (ds: DamageService) => Math.round(ds.getCritDamage()),
-},{
-*/
-  name: 'Crit DPS',
-  field: 'critDps',
-  value: (ds: DamageService) => Math.round(ds.getCritDps()),
-},{
-  name: 'Flesh Shot',
-  field: 'fleshShot',
-  value: (ds: DamageService) => Math.round(ds.getDamage(TargetType.Flesh)),
-},{
-  name: 'Flesh DPS',
-  field: 'fleshDps',
-  value: (ds: DamageService) => Math.round(ds.getTargetTypeDps(TargetType.Flesh)),
-},{
-  name: 'Flesh Crit Shot',
-  field: 'fleshCritShot',
-  value: (ds: DamageService) => Math.round(ds.getCritDamage(TargetType.Flesh)),
-},{
-  name: 'Flesh Crit DPS',
-  field: 'fleshCritDps',
-  value: (ds: DamageService) => Math.round(ds.getTargetTypeCritDps(TargetType.Flesh)),
-},{
-  name: 'Armor Shot',
-  field: 'armorShot',
-  value: (ds: DamageService) => Math.round(ds.getDamage(TargetType.Armor)),
-},{
-  name: 'Armor DPS',
-  field: 'armorDps',
-  value: (ds: DamageService) => Math.round(ds.getTargetTypeDps(TargetType.Armor)),
-},{
-  name: 'Armor Crit Shot',
-  field: 'armorCritShot',
-  value: (ds: DamageService) => Math.round(ds.getCritDamage(TargetType.Armor)),
-},{
-  name: 'Armor Crit DPS',
-  field: 'armorCritDps',
-  value: (ds: DamageService) => Math.round(ds.getTargetTypeCritDps(TargetType.Armor)),
-},{
-  name: 'Shield Shot',
-  field: 'shieldShot',
-  value: (ds: DamageService) => Math.round(ds.getDamage(TargetType.Shield)),
-},{
-  name: 'Shield DPS',
-  field: 'shieldDps',
-  value: (ds: DamageService) => Math.round(ds.getTargetTypeDps(TargetType.Shield)),
-},{
-  name: 'Shield Crit Shot',
-  field: 'shieldCritShot',
-  value: (ds: DamageService) => Math.round(ds.getCritDamage(TargetType.Shield)),
-},{
-  name: 'Shield Crit DPS',
-  field: 'shieldCritDps',
-  value: (ds: DamageService) => Math.round(ds.getTargetTypeCritDps(TargetType.Shield)),
-}]
-
 const mapState = (state: RootState) => ({
   selectedWeaponIds: state.contextReducer.selectedWeaponIds,
-  weapons: state.weaponReducer.weapons
+  weapons: state.weaponReducer.weapons,
+  badassRanking: state.badassRankingReducer.stats
 })
+
+interface TableInterface {
+  stats: any[]
+}
 
 const connector = connect(mapState)
 
 type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux & {
+  table: TableInterface
+}
 
 export type ICellLookup = (rowIndex: number, columnIndex: number) => any;
 export type ISortCallback = (columnIndex: number, comparator: (a: any, b: any) => number) => void;
@@ -152,8 +93,8 @@ interface DamageTableState {
   data: any[any]
 }
 
-class DamageTableComponent extends React.Component<PropsFromRedux, DamageTableState> {
-  constructor(props: PropsFromRedux) {
+class DamageTableComponent extends React.Component<Props, DamageTableState> {
+  constructor(props: Props) {
     super(props)
 
     let idx = 0
@@ -161,21 +102,21 @@ class DamageTableComponent extends React.Component<PropsFromRedux, DamageTableSt
       columns: [
         new TextSortableColumn('Name', idx++),
         new TextSortableColumn('Type', idx++),
-        ...stats.map(stat => new NumberSortableColumn(stat.name, idx++))
+        ...props.table.stats.map(stat => new NumberSortableColumn(stat.name, idx++))
       ],
       sortedIndexMap: [],
-      data: this.compileData(props.selectedWeaponIds, props.weapons)
+      data: this.compileData(props.selectedWeaponIds, props.weapons, props.badassRanking)
     }
   }
 
   componentWillUpdate(props: PropsFromRedux) {
-    if(props.selectedWeaponIds !== this.props.selectedWeaponIds || props.weapons !== this.props.weapons) {
+    if(props.selectedWeaponIds !== this.props.selectedWeaponIds || props.weapons !== this.props.weapons || props.badassRanking !== this.props.badassRanking) {
       // sortedIndexMap is hack to prevent undefined reference
-      this.setState({ data: this.compileData(props.selectedWeaponIds, props.weapons), sortedIndexMap: [] })
+      this.setState({ data: this.compileData(props.selectedWeaponIds, props.weapons, props.badassRanking), sortedIndexMap: [] })
     }
   }
 
-  private compileData(selectedWeaponIds: string[], weapons: Weapon[]): any[any] {
+  private compileData(selectedWeaponIds: string[], weapons: Weapon[], badassRanking: Stat[]): any[any] {
     let effect = new RisingSh0tEffect()
     effect.multiplier.setValue(0)
 
@@ -235,28 +176,7 @@ class DamageTableComponent extends React.Component<PropsFromRedux, DamageTableSt
         classModC
       ),
 
-      badAssRanking: [{
-        type: StatType.GunDamage,
-        value: 0.102
-      },{
-        type: StatType.FireRate,
-        value: 0.095
-      },{
-        type: StatType.ReloadSpeed,
-        value: 0.102
-      },{
-        type: StatType.CritHitDamage,
-        value: 0.102
-      },{
-        type: StatType.ElementalEffectChance,
-        value: 0.105
-      },{
-        type: StatType.ElementalEffectDamage,
-        value: 0.102
-      },{
-        type: StatType.GrenadeDamage,
-        value: 0.098
-      }],
+      badAssRanking: badassRanking,
 
       effects: [
         effect
@@ -274,7 +194,7 @@ class DamageTableComponent extends React.Component<PropsFromRedux, DamageTableSt
       return [
         weapon.name,
         weapon.type,
-        ...stats.map(stat => {
+        ...this.props.table.stats.map(stat => {
           return stat.value(ds)
         })
       ]
