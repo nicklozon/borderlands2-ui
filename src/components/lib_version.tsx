@@ -7,11 +7,6 @@ export default class LibVersion extends React.Component {
   }
 
   render() {
-    const style = {
-      position: 'absolute' as 'absolute',
-      bottom: '0px',
-      right: '0px'
-    }
-    return <div style={style}>borderlands2-lib version: {lib['version']}</div>
+    return <div>borderlands2-lib version: {lib['version']}</div>
   }
 }

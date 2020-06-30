@@ -2,8 +2,9 @@ import * as React from 'react'
 import { Cell, Column, ColumnHeaderCell, Table, Utils } from "@blueprintjs/table";
 import { RootState } from '../store'
 import { connect, ConnectedProps } from 'react-redux'
-import { Weapon, DamageService, TargetType, Build, Class, StatType, ClassMod, WeaponTypeDecorator, Type, GameModeEnum, FastHands, Fearless, RisingSh0t, DeathMark, Ambush, Innervate, HeadSh0t, Vel0city, RisingSh0tEffect, OneSh0tOneKill, Stat } from 'borderlands2'
+import { Weapon, DamageService, TargetType, Build, Class, StatType, ClassMod, WeaponTypeDecorator, Type, GameModeEnum, FastHands, RisingSh0t, DeathMark, Ambush, Innervate, HeadSh0t, Vel0city, RisingSh0tEffect, OneSh0tOneKill, Stat } from 'borderlands2'
 import { MenuItem, Menu } from '@blueprintjs/core';
+import { ElementalEffectLogos } from '../assets/elemental_effects';
 require("@blueprintjs/table/lib/css/table.css")
 
 const mapState = (state: RootState) => ({
@@ -191,8 +192,9 @@ class DamageTableComponent extends React.Component<Props, DamageTableState> {
       let weapon = weapons.find(asdf => asdf.id === weaponId)
       let ds = new DamageService(weapon, context)
 
+      let nameMarkup = <>{weapon.name} <img src={ElementalEffectLogos[weapon.elementalEffect]} style={{height: '1em'}} /></>
       return [
-        weapon.name,
+        nameMarkup,
         weapon.type,
         ...this.props.table.stats.map(stat => {
           return stat.value(ds)

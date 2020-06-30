@@ -1,11 +1,9 @@
 import * as React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from './store'
-import LibVersion from './components/lib_version'
 import { WeaponList } from './components/weapon_list'
 import { DamageTable } from './components/damage_table'
 import { NavBar } from './components/navbar/navbar'
-import { GearList } from './components/gear_list'
 import { DamageService, TargetType } from 'borderlands2'
 
 let tables = [{
@@ -108,10 +106,14 @@ class AppComponent extends React.Component<PropsFromRedux> {
     return (
       <>
         <NavBar />
-        <GearList />
-        <WeaponList />
-        {this.renderDamageTables()}
-        <LibVersion />
+        <div style={{display: 'flex', alignItems: 'flex-start'}}>
+          <div style={{flexGrow: 10}}>
+            {this.renderDamageTables()}
+          </div>
+          <div style={{flexGrow: 2}}>
+            <WeaponList />
+          </div>
+        </div>
       </>
     )
   }
