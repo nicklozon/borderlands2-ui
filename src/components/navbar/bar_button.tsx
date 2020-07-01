@@ -134,7 +134,7 @@ class Component extends React.Component<PropsFromRedux, State> {
           text="Badass Ranking"
           onClick={this.openDialog}
         />
-        <Dialog isOpen={isOpen} onClose={this.closeDialog}>
+        <Dialog isOpen={isOpen} onClose={this.closeDialog} title="Badass Ranking">
           <div className={Classes.DIALOG_BODY}>
             {statInputsMarkup}
           </div>
