@@ -15,7 +15,7 @@ const connector = connect(mapState, mapDispatch)
 
 type PropsFromRedux = ConnectedProps<typeof connector>
 
-class AddGearButtonComponent extends React.Component<PropsFromRedux> {
+class GearButtonComponent extends React.Component<PropsFromRedux> {
   constructor(props: PropsFromRedux) {
     super(props)
   }
@@ -25,11 +25,11 @@ class AddGearButtonComponent extends React.Component<PropsFromRedux> {
       <Button
         className="bp3-minimal"
         icon="shield"
-        text="Add Gear"
+        text="Gear"
         onClick={this.props.openGearModal}
       />
     )
   }
 }
 
-export let AddGearButton = connector(AddGearButtonComponent)
+export let GearButton = connector(GearButtonComponent)

@@ -3,7 +3,7 @@ import { Button, Dialog, FormGroup, Classes, InputGroup } from '@blueprintjs/cor
 import { RootState } from '../../store'
 import { updateBadassRanking } from '../../store/badass_ranking/actions'
 import { connect, ConnectedProps } from 'react-redux'
-import { Stat, StatType } from 'borderlands2'
+import { StatType } from 'borderlands2'
 
 const mapState = (state: RootState) => ({
   stats: state.badassRankingReducer.stats
