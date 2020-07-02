@@ -36,7 +36,10 @@ module.exports = {
       use:[{
         loader: "style-loader"
       },{
-        loader: "css-modules-typescript-loader"
+        loader: "@teamsupercell/typings-for-css-modules-loader",
+        options: {
+          disableLocalsExport: true
+        }
       },{
         loader: "css-loader",
         options: {

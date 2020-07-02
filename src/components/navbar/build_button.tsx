@@ -1,12 +1,15 @@
+import { v4 as uuidv4 } from 'uuid'
 import * as React from 'react'
-//import { openBuildModal } from '../../store/app/actions'
-import { Button, Dialog, Classes, InputGroup, ControlGroup } from '@blueprintjs/core'
+import { Button, Dialog, Classes, InputGroup, ControlGroup, Card, HTMLSelect, FormGroup, EditableText, H4, Collapse } from '@blueprintjs/core'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from '../../store'
 import { BuildService } from '../../lib/build_service'
 import { createBuild } from '../../store/build/actions'
+import { BuildForm } from '../build_form'
+import * as styles from './build_button.scss'
 
 const mapState = (state: RootState) => ({
+  builds: state.buildReducer.builds
 })
 
 const mapDispatch = {
@@ -63,6 +66,8 @@ class BuildButtonComponent extends React.Component<PropsFromRedux, State> {
   render() {
     const { isOpen, url } = this.state
 
+    let buildsMarkup = this.props.builds.map(build => <BuildForm key={build.id} buildId={build.id} />)
+
     return (
       <>
         <Button
@@ -76,7 +81,10 @@ class BuildButtonComponent extends React.Component<PropsFromRedux, State> {
             <ControlGroup fill>
               <InputGroup leftIcon='link' placeholder='bl2skills.com link' value={url} onChange={this.handleChange('url')} />
               <Button icon='arrow-right' className={Classes.FIXED} onClick={this.parseBuild} />
-            </ControlGroup>
+            </ControlGroup><br />
+            <div className={styles.buildList}>
+              {buildsMarkup}
+            </div>
           </div>
           <div className={Classes.DIALOG_FOOTER}>
             <div className={Classes.DIALOG_FOOTER_ACTIONS}>

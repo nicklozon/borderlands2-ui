@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Cell, Column, ColumnHeaderCell, Table, Utils } from "@blueprintjs/table";
 import { RootState } from '../store'
 import { connect, ConnectedProps } from 'react-redux'
-import { Weapon, DamageService, TargetType, Build, Class, StatType, ClassMod, WeaponTypeDecorator, Type, GameModeEnum, FastHands, RisingSh0t, DeathMark, Ambush, Innervate, HeadSh0t, Vel0city, RisingSh0tEffect, OneSh0tOneKill, Stat } from 'borderlands2'
+import { Weapon, DamageService, TargetType, Build, Class, StatType, ClassMod, WeaponTypeDecorator, Type, GameModeEnum, FastHands, RisingSh0t, DeathMark, Ambush, Innervate, HeadSh0t, Vel0city, RisingSh0tEffect, OneSh0tOneKill, Stat, Context } from 'borderlands2'
 import { MenuItem, Menu } from '@blueprintjs/core';
 import { ElementalEffectLogos } from '../assets/elemental_effects';
 require("@blueprintjs/table/lib/css/table.css")
@@ -161,8 +161,8 @@ class DamageTableComponent extends React.Component<Props, DamageTableState> {
         //new HeadSh0t(3),
       ])
 
-    let context = {
-      build: new Build(
+    let context = new Context(
+      new Build(
         Class.Assassin,
         [
           new FastHands(5),
@@ -173,19 +173,16 @@ class DamageTableComponent extends React.Component<Props, DamageTableState> {
           new HeadSh0t(5),
           new Vel0city(3),
           new OneSh0tOneKill(5)
-        ],
-        classModC
+        ]
       ),
-
-      badAssRanking: badassRanking,
-
-      effects: [
-        effect
-      ],
-      
-
-      gameMode: GameModeEnum.TrueVaultHunterMode
-    }
+      'name',
+      classModC,
+      undefined,
+      undefined,
+      badassRanking,
+      [effect],
+      GameModeEnum.TrueVaultHunterMode
+    )
 
 
     return selectedWeaponIds.map(weaponId => {
