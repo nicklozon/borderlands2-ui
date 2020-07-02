@@ -37,6 +37,16 @@ export class AboutButton extends React.Component<{}, State> {
         />
         <Dialog isOpen={isOpen} onClose={this.closeDialog}>
           <div className={Classes.DIALOG_BODY}>
+            <H5>What is this?</H5>
+            <p>
+              This is a weapon Damage/DPS calculator for Borderlands 2 that attempts to handle all aspects of the games; skill builds, red text on items, splash damage, elemental damage over time, manufacturer and weapon type specific bonuses, skill bonuses, etc. It is a work in progress and will never be perfect.
+            </p>
+            <p>
+              Read about my inspiration and methodology <a href='https://github.com/nicklozon/borderlands-2-lib/blob/master/README.md' target='_blank'>here</a>.
+            </p>
+            <p>
+              Use this tool if you're curious, but play the game the way you enjoy. You don't need this calculator; damage and DPS is only one aspect of the game. Just because I've obsessed over it doesn't mean you need to too.
+            </p><br />
             <H5>Questions or Concerns?</H5>
             <p>
               I am <strong>Lulzagna</strong> on Borderlands' Discord server.
