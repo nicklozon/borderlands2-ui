@@ -73,10 +73,10 @@ class BuildButtonComponent extends React.Component<PropsFromRedux, State> {
         <Button
           className="bp3-minimal"
           icon="layout-hierarchy"
-          text="Builds"
+          text="Skill Builds"
           onClick={this.openDialog}
         />
-        <Dialog isOpen={isOpen} onClose={this.closeDialog} title='Manage Builds'>
+        <Dialog isOpen={isOpen} onClose={this.closeDialog} title='Manage Skill Builds'>
           <div className={Classes.DIALOG_BODY}>
             <ControlGroup fill>
               <InputGroup leftIcon='link' placeholder='bl2skills.com link' value={url} onChange={this.handleChange('url')} />
