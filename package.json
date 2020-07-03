@@ -9,7 +9,7 @@
     "@blueprintjs/core": "^3.26.1",
     "@blueprintjs/table": "^3.8.5",
     "@types/react-redux": "^7.1.8",
-    "borderlands2": "^0.7.1",
+    "borderlands2": "^0.7.2",
     "classnames": "^2.2.6",
     "file-loader": "^6.0.0",
     "react": "^16.13.1",

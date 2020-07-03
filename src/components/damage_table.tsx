@@ -115,7 +115,7 @@ class DamageTableComponent extends React.Component<Props, DamageTableState> {
     }
   }
 
-  componentWillUpdate(props: PropsFromRedux) {
+  componentDidUpdate(props: PropsFromRedux) {
     if(props.selectedWeaponIds !== this.props.selectedWeaponIds || props.weapons !== this.props.weapons || props.badassRanking !== this.props.badassRanking || props.build.id !== this.props.build.id) {
       // sortedIndexMap is hack to prevent undefined reference
       this.setState({ data: this.compileData(props.selectedWeaponIds, props.weapons, props.badassRanking), sortedIndexMap: [] })
