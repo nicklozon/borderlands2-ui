@@ -171,12 +171,13 @@ class DamageTableComponent extends React.Component<Props, DamageTableState> {
     let context = new Context(
       build,
       'name',
-      classModC,
+      //classModC,
+      undefined,
       undefined,
       undefined,
       badassRanking,
       [effect],
-      GameModeEnum.TrueVaultHunterMode
+      //GameModeEnum.TrueVaultHunterMode
     )
 
 
