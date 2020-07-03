@@ -3,7 +3,7 @@ import { RootState } from '../store'
 import { connect, ConnectedProps } from 'react-redux'
 import { Card, H4, EditableText, ControlGroup, Button, Classes, AnchorButton, InputGroup, FormGroup, Intent, Icon, IconName } from '@blueprintjs/core'
 import { createBuild, deleteBuild, updateBuild } from '../store/build/actions'
-import { Build, Stat } from 'borderlands2'
+import { Build } from 'borderlands2'
 import { BuildService } from '../lib/build_service'
 
 interface OwnProps {

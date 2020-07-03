@@ -10,7 +10,12 @@ require("@blueprintjs/table/lib/css/table.css")
 const mapState = (state: RootState) => ({
   selectedWeaponIds: state.contextReducer.selectedWeaponIds,
   weapons: state.weaponReducer.weapons,
-  badassRanking: state.badassRankingReducer.stats
+  badassRanking: state.badassRankingReducer.stats,
+  // this entire file is going to change, this is a hack for now
+  build: state.buildReducer.builds[0] ?? new Build(
+    Class.Assassin,
+    []
+  )
 })
 
 interface TableInterface {
@@ -111,13 +116,15 @@ class DamageTableComponent extends React.Component<Props, DamageTableState> {
   }
 
   componentWillUpdate(props: PropsFromRedux) {
-    if(props.selectedWeaponIds !== this.props.selectedWeaponIds || props.weapons !== this.props.weapons || props.badassRanking !== this.props.badassRanking) {
+    if(props.selectedWeaponIds !== this.props.selectedWeaponIds || props.weapons !== this.props.weapons || props.badassRanking !== this.props.badassRanking || props.build.id !== this.props.build.id) {
       // sortedIndexMap is hack to prevent undefined reference
       this.setState({ data: this.compileData(props.selectedWeaponIds, props.weapons, props.badassRanking), sortedIndexMap: [] })
     }
   }
 
   private compileData(selectedWeaponIds: string[], weapons: Weapon[], badassRanking: Stat[]): any[any] {
+    const { build } = this.props
+
     let effect = new RisingSh0tEffect()
     effect.multiplier.setValue(0)
 
@@ -162,19 +169,7 @@ class DamageTableComponent extends React.Component<Props, DamageTableState> {
       ])
 
     let context = new Context(
-      new Build(
-        Class.Assassin,
-        [
-          new FastHands(5),
-          new RisingSh0t(5), 
-          new DeathMark(1),
-          new Ambush(5),
-          new Innervate(5),
-          new HeadSh0t(5),
-          new Vel0city(3),
-          new OneSh0tOneKill(5)
-        ]
-      ),
+      build,
       'name',
       classModC,
       undefined,
