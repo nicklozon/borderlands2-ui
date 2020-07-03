@@ -111,19 +111,19 @@ class DamageTableComponent extends React.Component<Props, DamageTableState> {
         ...props.table.stats.map(stat => new NumberSortableColumn(stat.name, idx++))
       ],
       sortedIndexMap: [],
-      data: this.compileData(props.selectedWeaponIds, props.weapons, props.badassRanking)
+      data: this.compileData()
     }
   }
 
   componentDidUpdate(props: PropsFromRedux) {
     if(props.selectedWeaponIds !== this.props.selectedWeaponIds || props.weapons !== this.props.weapons || props.badassRanking !== this.props.badassRanking || props.build.id !== this.props.build.id) {
       // sortedIndexMap is hack to prevent undefined reference
-      this.setState({ data: this.compileData(props.selectedWeaponIds, props.weapons, props.badassRanking), sortedIndexMap: [] })
+      this.setState({ data: this.compileData(), sortedIndexMap: [] })
     }
   }
 
-  private compileData(selectedWeaponIds: string[], weapons: Weapon[], badassRanking: Stat[]): any[any] {
-    const { build } = this.props
+  private compileData(): any[any] {
+    const { build, selectedWeaponIds, weapons, badassRanking } = this.props
 
     let effect = new RisingSh0tEffect()
     effect.multiplier.setValue(0)
