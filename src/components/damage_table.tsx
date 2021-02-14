@@ -129,18 +129,6 @@ class DamageTableComponent extends React.Component<Props, DamageTableState> {
     effect.multiplier.setValue(0)
 
     let classModA = new ClassMod([{
-        type: StatType.FireRate,
-        value: 0.21,
-        decorator: WeaponTypeDecorator(Type.Pistol)
-      },{
-        type: StatType.MagazineSize,
-        value: 0.23,
-        decorator: WeaponTypeDecorator(Type.Pistol)
-      }],[
-        new RisingSh0t(2)
-      ])
-
-    let classModB = new ClassMod([{
         type: StatType.GunDamage,
         value: 0.29,
         decorator: WeaponTypeDecorator(Type.SniperRifle)
@@ -149,9 +137,23 @@ class DamageTableComponent extends React.Component<Props, DamageTableState> {
         value: 0.31,
         //decorator: WeaponTypeDecorator(Type.SniperRifle) // bugged
       }],[
-        //new OneSh0tOneKill(4),
+        new OneSh0tOneKill(4),
         //new Precision(3),
         new HeadSh0t(3),
+      ])
+
+    let classModB = new ClassMod([{
+        type: StatType.GunDamage,
+        value: 0.33,
+        decorator: WeaponTypeDecorator(Type.SniperRifle)
+      },{
+        type: StatType.CritHitDamage,
+        value: 0.34,
+        //decorator: WeaponTypeDecorator(Type.SniperRifle) // bugged
+      }],[
+        new OneSh0tOneKill(3),
+        //new Precision(3),
+        new HeadSh0t(4),
       ])
 
     let classModC = new ClassMod([{
@@ -164,20 +166,19 @@ class DamageTableComponent extends React.Component<Props, DamageTableState> {
         //decorator: WeaponTypeDecorator(Type.SniperRifle) // bugged
       }],[
         new OneSh0tOneKill(6),
-        //new Precision(5),
+        //new Precision(3),
         //new HeadSh0t(3),
       ])
 
     let context = new Context(
       build,
       'name',
-      //classModC,
-      undefined,
+      classModB,
       undefined,
       undefined,
       badassRanking,
       [effect],
-      //GameModeEnum.TrueVaultHunterMode
+      GameModeEnum.TrueVaultHunterMode
     )
 
 
